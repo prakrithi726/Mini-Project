@@ -1,0 +1,36 @@
+name: Daily Job Scraper
+
+on:
+  schedule:
+    - cron: "0 17 * * *"   # 10:30 PM IST
+  workflow_dispatch:       # allows manual run
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          pip install playwright
+          playwright install chromium
+          pip install supabase
+          pip install playwright-stealth
+
+      - name: Enable XVFB for non-headless browser
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          echo "Xvfb installed"
+
+      - name: Run scraper (headless = False)
+        run: |
+          xvfb-run -a python daily_scraper/daily_scraper.py

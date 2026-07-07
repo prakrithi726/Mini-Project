@@ -1,0 +1,16 @@
+name: Test Cron Job
+
+on:
+  schedule:
+    # Run every day at midnight UTC
+    - cron: '* * * * *' 
+  workflow_dispatch:
+
+jobs:
+  run-scheduled-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run a script
+        run: echo "Scheduled job ran at $(date -u)"
