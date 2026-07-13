@@ -1,1 +1,1 @@
-JobDataScraper_MiniProject
+SkillSync_MiniProject
